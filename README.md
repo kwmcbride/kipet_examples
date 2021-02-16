@@ -5,4 +5,8 @@
 [![](https://img.shields.io/github/last-commit/salvadorgarciamunoz/kipet)](https://github.com/salvadorgarciamunoz/kipet/)
 [![](https://img.shields.io/pypi/wheel/kipet)](https://pypi.org/manage/project/kipet/release/0.1.1/)
 
-This repository holds all of the example and tutorial problems for use with KIPET. The main repository for KIPET is found here: https://github.com/salvadorgarciamunoz/kipet
+This repository holds all of the example and tutorial problems for use with KIPET.
+
+A more detailed description of each example along with Jupyter notebooks are coming soon!
+
+The main repository for KIPET is found here: https://github.com/salvadorgarciamunoz/kipet
