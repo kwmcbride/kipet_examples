@@ -1,0 +1,219 @@
+
+#######################Iteration 0#######################
+
+#######################Solve Z 0#######################
+Solver command line: ['/home/kevin/scratch/anaconda3/envs/k57/bin/ipopt', '/tmp/tmp30nhh86j.pyomo.nl', '-AMPL']
+
+Ipopt 3.13.3: 
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.13.3, running with linear solver mumps.
+NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
+
+Number of nonzeros in equality constraint Jacobian...:     7803
+Number of nonzeros in inequality constraint Jacobian.:        0
+Number of nonzeros in Lagrangian Hessian.............:     1509
+
+Total number of variables............................:     2108
+                     variables with only lower bounds:      303
+                variables with lower and upper bounds:        2
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:     1803
+Total number of inequality constraints...............:        0
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:        0
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0  1.5963441e-02 1.27e-13 1.00e+00  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
+   1  3.3160997e+00 6.15e-06 8.44e-05  -1.0 9.80e-02    -  1.00e+00 1.00e+00f  1
+   2  1.0253018e+00 5.09e-07 2.04e-05  -2.5 4.74e-02    -  1.00e+00 1.00e+00f  1
+   3  2.5393800e-01 2.27e-05 4.01e-03  -3.8 5.72e-02    -  9.32e-01 1.00e+00f  1
+   4  7.2013734e-02 3.95e-03 1.21e-02  -3.8 1.19e+00    -  6.46e-01 1.00e+00f  1
+   5  3.0452414e-02 1.88e-04 3.72e-03  -3.8 3.42e-02    -  1.00e+00 1.00e+00h  1
+   6  1.7438678e-02 7.97e-05 3.66e-04  -3.8 6.24e-02    -  1.00e+00 1.00e+00h  1
+   7  3.2232400e-03 2.52e-06 4.62e-04  -5.7 1.60e-02    -  9.49e-01 1.00e+00h  1
+   8  5.6423537e-04 5.02e-07 6.57e-06  -5.7 5.32e-03    -  1.00e+00 1.00e+00h  1
+   9  6.5863883e-05 2.31e-06 1.42e-04  -8.6 1.16e-02    -  9.42e-01 1.00e+00h  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  10  8.6411279e-06 6.17e-06 4.65e-05  -8.6 2.13e-02    -  9.65e-01 1.00e+00h  1
+  11  1.2772850e-06 2.27e-05 8.89e-05  -8.6 4.38e-02    -  8.72e-01 1.00e+00h  1
+  12  2.4572887e-07 9.57e-06 3.45e-05  -8.6 3.41e-02    -  9.12e-01 1.00e+00h  1
+  13  5.3645561e-08 1.87e-06 9.63e-07  -8.6 1.65e-02    -  1.00e+00 1.00e+00h  1
+  14  1.5831061e-08 2.17e-05 1.06e-06  -8.6 5.31e-02    -  1.00e+00 1.00e+00h  1
+  15  7.6519646e-09 4.08e-07 3.31e-08  -8.6 3.87e-03    -  1.00e+00 1.00e+00h  1
+  16  6.5214791e-09 2.80e-09 6.07e-10  -8.6 4.79e-04    -  1.00e+00 1.00e+00h  1
+
+Number of Iterations....: 16
+
+                                   (scaled)                 (unscaled)
+Objective...............:   6.5214791406563976e-09    6.5214791406563976e-09
+Dual infeasibility......:   6.0685521051948108e-10    6.0685521051948108e-10
+Constraint violation....:   2.7975363524205057e-09    2.7975363524205057e-09
+Complementarity.........:   2.5231314321662885e-09    2.5231314321662885e-09
+Overall NLP error.......:   2.7975363524205057e-09    2.7975363524205057e-09
+
+
+Number of objective function evaluations             = 17
+Number of objective gradient evaluations             = 17
+Number of equality constraint evaluations            = 17
+Number of inequality constraint evaluations          = 0
+Number of equality constraint Jacobian evaluations   = 17
+Number of inequality constraint Jacobian evaluations = 0
+Number of Lagrangian Hessian evaluations             = 16
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.476
+Total CPU secs in NLP function evaluations           =      0.000
+
+EXIT: Optimal Solution Found.
+
+
+#######################Solve S 0#######################
+   Iteration     Total nfev        Cost      Cost reduction    Step norm     Optimality   
+       0              1         6.7716e-02                                    7.21e-03    
+       1              2         1.2109e-02      5.56e-02       5.19e+00       1.63e-03    
+       2              3         5.8276e-03      6.28e-03       2.79e+00       2.61e-04    
+       3              4         4.9703e-03      8.57e-04       1.12e+00       2.34e-05    
+       4              5         4.6640e-03      3.06e-04       8.25e-01       1.24e-05    
+       5              6         4.6035e-03      6.05e-05       2.58e-01       1.70e-06    
+       6              7         4.5986e-03      4.89e-06       7.78e-02       2.58e-07    
+       7              8         4.5982e-03      4.25e-07       2.91e-02       7.28e-08    
+`gtol` termination condition is satisfied.
+Function evaluations 8, initial cost 6.7716e-02, final cost 4.5982e-03, first-order optimality 7.28e-08.
+
+#######################Solve C 0#######################
+   Iteration     Total nfev        Cost      Cost reduction    Step norm     Optimality   
+       0              1         4.6049e-03                                    1.92e-01    
+       1              2         3.8386e-03      7.66e-04       2.01e-03       1.42e-01    
+       2              3         3.5040e-03      3.35e-04       2.12e-03       4.31e-02    
+       3              4         2.8942e-03      6.10e-04       3.43e-03       7.85e-03    
+       4              5         2.8217e-03      7.25e-05       1.29e-03       1.30e-03    
+       5              6         2.8146e-03      7.05e-06       3.08e-04       4.25e-04    
+       6              7         2.8139e-03      7.57e-07       8.02e-05       1.09e-04    
+       7              8         2.8136e-03      3.16e-07       4.79e-05       1.22e-05    
+       8              9         2.8135e-03      4.28e-08       1.17e-05       6.41e-06    
+       9             10         2.8135e-03      8.51e-09       3.68e-06       4.74e-06    
+      10             11         2.8135e-03      4.92e-09       2.52e-06       3.79e-06    
+      11             12         2.8135e-03      3.67e-09       2.11e-06       3.13e-06    
+      12             13         2.8135e-03      1.23e-09       7.77e-07       2.92e-06    
+      13             14         2.8135e-03      1.10e-09       7.14e-07       2.74e-06    
+      14             15         2.8135e-03      1.02e-09       6.82e-07       2.57e-06    
+      15             16         2.8135e-03      9.46e-10       6.51e-07       2.42e-06    
+      16             17         2.8135e-03      9.24e-10       6.53e-07       2.28e-06    
+      17             18         2.8135e-03      1.40e-09       1.02e-06       2.06e-06    
+      18             19         2.8135e-03      8.59e-10       6.52e-07       1.93e-06    
+      19             20         2.8135e-03      8.05e-10       6.28e-07       1.81e-06    
+      20             21         2.8135e-03      1.32e-09       1.05e-06       3.29e-06    
+      21             22         2.8135e-03      3.33e-10       2.79e-07       3.20e-06    
+`ftol` termination condition is satisfied.
+Function evaluations 22, initial cost 4.6049e-03, final cost 2.8135e-03, first-order optimality 3.20e-06.
+
+#######################Iteration 1#######################
+
+#######################Solve Z 1#######################
+Solver command line: ['/home/kevin/scratch/anaconda3/envs/k57/bin/ipopt', '/tmp/tmpapw_avc7.pyomo.nl', '-AMPL']
+
+Ipopt 3.13.3: 
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.13.3, running with linear solver mumps.
+NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
+
+Number of nonzeros in equality constraint Jacobian...:     7803
+Number of nonzeros in inequality constraint Jacobian.:        0
+Number of nonzeros in Lagrangian Hessian.............:     1509
+
+Total number of variables............................:     2108
+                     variables with only lower bounds:      303
+                variables with lower and upper bounds:        2
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:     1803
+Total number of inequality constraints...............:        0
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:        0
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0  1.4755731e-02 2.80e-09 9.98e-01  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
+   1  3.3158836e+00 1.03e-04 8.46e-04  -1.0 9.80e-02    -  1.00e+00 1.00e+00f  1
+   2  1.0247634e+00 3.10e-06 6.60e-05  -2.5 4.74e-02    -  1.00e+00 1.00e+00f  1
+   3  2.5342330e-01 7.32e-05 5.58e-04  -3.8 7.49e-02    -  9.91e-01 1.00e+00f  1
+   4  6.8190803e-02 8.57e-05 2.38e-04  -3.8 8.79e-02    -  1.00e+00 1.00e+00f  1
+   5  1.4203017e-02 3.35e-05 1.66e-03  -5.7 4.78e-02    -  9.03e-01 1.00e+00h  1
+   6  2.9056053e-03 1.49e-06 6.73e-06  -5.7 8.31e-03    -  1.00e+00 1.00e+00h  1
+   7  4.7797485e-04 1.00e-06 7.76e-06  -5.7 7.54e-03    -  1.00e+00 1.00e+00h  1
+   8  5.5744865e-05 2.76e-06 1.54e-04  -8.6 1.32e-02    -  9.34e-01 1.00e+00h  1
+   9  7.5615563e-06 6.90e-06 5.71e-05  -8.6 2.26e-02    -  9.56e-01 1.00e+00h  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  10  1.1491225e-06 2.26e-05 8.82e-05  -8.6 4.41e-02    -  8.69e-01 1.00e+00h  1
+  11  2.2394886e-07 9.01e-06 3.24e-05  -8.6 3.34e-02    -  9.15e-01 1.00e+00h  1
+  12  4.9401471e-08 1.42e-06 8.03e-07  -8.6 1.46e-02    -  1.00e+00 1.00e+00h  1
+  13  1.4909120e-08 2.19e-05 1.01e-06  -8.6 5.33e-02    -  1.00e+00 1.00e+00h  1
+  14  7.4882107e-09 2.45e-07 2.06e-08  -8.6 2.60e-03    -  1.00e+00 1.00e+00h  1
+  15  6.5119347e-09 2.28e-09 4.83e-10  -8.6 4.45e-04    -  1.00e+00 1.00e+00h  1
+
+Number of Iterations....: 15
+
+                                   (scaled)                 (unscaled)
+Objective...............:   6.5119347303178533e-09    6.5119347303178533e-09
+Dual infeasibility......:   4.8286282882271242e-10    4.8286282882271242e-10
+Constraint violation....:   2.2829341739510206e-09    2.2829341739510206e-09
+Complementarity.........:   2.5191225424770416e-09    2.5191225424770416e-09
+Overall NLP error.......:   2.5191225424770416e-09    2.5191225424770416e-09
+
+
+Number of objective function evaluations             = 16
+Number of objective gradient evaluations             = 16
+Number of equality constraint evaluations            = 16
+Number of inequality constraint evaluations          = 0
+Number of equality constraint Jacobian evaluations   = 16
+Number of inequality constraint Jacobian evaluations = 0
+Number of Lagrangian Hessian evaluations             = 15
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.512
+Total CPU secs in NLP function evaluations           =      0.000
+
+EXIT: Optimal Solution Found.
+
+
+#######################Solve S 1#######################
+   Iteration     Total nfev        Cost      Cost reduction    Step norm     Optimality   
+       0              1         4.5982e-03                                    7.30e-08    
+`gtol` termination condition is satisfied.
+Function evaluations 1, initial cost 4.5982e-03, final cost 4.5982e-03, first-order optimality 7.30e-08.
+
+#######################Solve C 1#######################
+   Iteration     Total nfev        Cost      Cost reduction    Step norm     Optimality   
+       0              1         4.6049e-03                                    1.92e-01    
+       1              2         3.8387e-03      7.66e-04       2.01e-03       1.42e-01    
+       2              3         3.5041e-03      3.35e-04       2.12e-03       4.31e-02    
+       3              4         2.8942e-03      6.10e-04       3.43e-03       7.85e-03    
+       4              5         2.8217e-03      7.25e-05       1.29e-03       1.30e-03    
+       5              6         2.8147e-03      7.01e-06       3.06e-04       4.06e-04    
+       6              7         2.8139e-03      8.29e-07       8.54e-05       8.74e-05    
+       7              8         2.8136e-03      2.54e-07       3.88e-05       2.19e-05    
+       8              9         2.8135e-03      7.42e-08       1.57e-05       5.97e-06    
+       9             10         2.8135e-03      1.38e-08       5.27e-06       5.15e-06    
+      10             11         2.8135e-03      5.31e-09       2.60e-06       4.28e-06    
+      11             12         2.8135e-03      3.70e-09       2.05e-06       3.73e-06    
+      12             13         2.8135e-03      3.30e-09       2.02e-06       3.21e-06    
+      13             14         2.8135e-03      2.05e-09       1.38e-06       2.90e-06    
+      14             15         2.8135e-03      8.57e-10       6.08e-07       2.79e-06    
+      15             16         2.8135e-03      5.04e-10       3.69e-07       2.71e-06    
+      16             17         2.8135e-03      4.84e-10       3.59e-07       2.63e-06    
+      17             18         2.8135e-03      6.60e-10       4.93e-07       2.56e-06    
+      18             19         2.8135e-03      5.29e-10       4.07e-07       2.47e-06    
+      19             20         2.8135e-03      5.08e-10       3.98e-07       2.39e-06    
+      20             21         2.8135e-03      4.70e-10       3.74e-07       2.31e-06    
+      21             22         2.8135e-03      4.83e-10       3.90e-07       2.23e-06    
+      22             23         2.8135e-03      4.02e-10       3.30e-07       2.18e-06    
+`ftol` termination condition is satisfied.
+Function evaluations 23, initial cost 4.6049e-03, final cost 2.8135e-03, first-order optimality 2.18e-06.
