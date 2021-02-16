@@ -9,13 +9,11 @@ import unittest
 class TestExamples(unittest.TestCase):
     """Test to check if all of the example problems are working properly"""
     
-    @classmethod
     def setUpClass(self):
         self.dir_examples = Path.cwd().joinpath('examples')
         self.files = list(self.dir_examples.rglob("*.py"))
         self.std_out = open("test_examples.log", "w")
 
-    @classmethod
     def tearDownClass(self):
         self.std_out.close()
 
@@ -55,11 +53,12 @@ class TestExamples(unittest.TestCase):
             continue
         
         print(f'{countpy} files in {self.dir_examples} failed')
+        print(grades)
         
         self.assertEqual(int(flagpy), 0) 
         self.assertEqual(int(flagps), 0)
 
-        print(grades)
+        
 
         return grades
 
