@@ -9,12 +9,12 @@ import unittest
 class TestExamples(unittest.TestCase):
     """Test to check if all of the example problems are working properly"""
     
-    def setUpClass(self):
+    def setUp(self):
         self.dir_examples = Path.cwd().joinpath('examples')
         self.files = list(self.dir_examples.rglob("*.py"))
         self.std_out = open("test_examples.log", "w")
 
-    def tearDownClass(self):
+    def tearDown(self):
         self.std_out.close()
 
     def test_examples(self):
