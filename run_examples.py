@@ -24,14 +24,17 @@ class TestExamples(unittest.TestCase):
         countpy = 0
         flagps = 0
         
-        print('Testing the example problems in kipet_examples repository')
+        print('Testing the example problems in folder: examples')
         number_of_examples = len(self.files)
         print(f'There are {number_of_examples} example problems to be evaluated')
         
         for n, file in enumerate(self.files):
             
             file = Path(file)
-            print(f'Running tutorial example ({n + 1}/{number_of_examples}): {file.stem}')
+            margin = 10
+            print(f'Running example ({n + 1}/{number_of_examples}):\n
+            print('File'.rjust(margin) + f' : {file.stem}')
+                  
             
             start = time.time()
             flagpy = subprocess.call([sys.executable, file,'1'],
@@ -40,25 +43,26 @@ class TestExamples(unittest.TestCase):
             end = time.time()
             
             if flagpy!=0: 
-                print(f"\n\t #### {file.stem} FAILED ####\n")
+                print('Status'.rjust(margin) + f' : fail')
                 countpy = countpy + 1
                 flagpy=1
                 flagps=1
                 grades[file.stem] = False 
                 
             else:
-                print(f"\n\t #### {file.stem} PASSED {end-start:0.4f} seconds ####\n")
+                print('Status'.rjust(margin) + f' : pass')
+                print('Time'.rjust(margin) + f' : {end-start:0.4f}')
                 grades[file.stem] = True
                 
             continue
         
-        print(f'{countpy} files in {self.dir_examples} failed')
-        print(grades)
-        
+        print(f'{countpy} files in {self.dir_examples} failed:')
+        for file, grade in grades.items():
+            if not grade:
+                print(f'\t{file}')
+            
         self.assertEqual(int(flagpy), 0) 
         self.assertEqual(int(flagps), 0)
-
-        
 
         return grades
 
