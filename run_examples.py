@@ -32,7 +32,7 @@ class TestExamples(unittest.TestCase):
             
             file = Path(file)
             margin = 10
-            print(f'Running example ({n + 1}/{number_of_examples}):\n
+            print(f'Running example ({n + 1}/{number_of_examples}):\n')
             print('File'.rjust(margin) + f' : {file.stem}')
                   
             
@@ -43,7 +43,7 @@ class TestExamples(unittest.TestCase):
             end = time.time()
             
             if flagpy!=0: 
-                print('Status'.rjust(margin) + f' : fail')
+                print('Status'.rjust(margin) + f' : fail\n')
                 countpy = countpy + 1
                 flagpy=1
                 flagps=1
@@ -51,7 +51,7 @@ class TestExamples(unittest.TestCase):
                 
             else:
                 print('Status'.rjust(margin) + f' : pass')
-                print('Time'.rjust(margin) + f' : {end-start:0.4f}')
+                print('Time'.rjust(margin) + f' : {end-start:0.4f}\n')
                 grades[file.stem] = True
                 
             continue
