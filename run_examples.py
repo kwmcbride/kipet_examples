@@ -35,7 +35,6 @@ class TestExamples(unittest.TestCase):
             print(f'Running example ({n + 1}/{number_of_examples}):\n')
             print('File'.rjust(margin) + f' : {file.stem}')
                   
-            
             start = time.time()
             flagpy = subprocess.call([sys.executable, file,'1'],
                                 stdout=self.std_out,
@@ -43,17 +42,18 @@ class TestExamples(unittest.TestCase):
             end = time.time()
             
             if flagpy!=0: 
-                print('Status'.rjust(margin) + f' : fail\n')
+                print('Status'.rjust(margin) + f' : Fail\n')
                 countpy = countpy + 1
                 flagpy=1
                 flagps=1
                 grades[file.stem] = False 
                 
             else:
-                print('Status'.rjust(margin) + f' : pass')
+                print('Status'.rjust(margin) + f' : Pass')
                 print('Time'.rjust(margin) + f' : {end-start:0.4f}\n')
                 grades[file.stem] = True
                 
+            print('Results'.rjust(margin) + f' : P: {n + 1 -countpy} | F: {countpy} | T: {n + 1} | R: {(n + 1 -countpy)/(n + 1):0.2f}%\n')
             continue
         
         print(f'{countpy} files in {self.dir_examples} failed:')
