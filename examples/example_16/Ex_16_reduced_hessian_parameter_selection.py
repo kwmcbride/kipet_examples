@@ -28,7 +28,7 @@ if __name__ == "__main__":
             with_plots = False
     
     kipet_model = kipet.KipetModel()
-    kipet_model.ub.TIME_BASE = 'min'
+    kipet_model.ub.TIME_BASE = 'hr'
     kipet_model.ub.VOLUME_BASE = 'm**3'
     
     r1 = kipet_model.new_reaction('cstr')
@@ -45,7 +45,7 @@ if __name__ == "__main__":
     k = r1.parameter('k', value=2.5*factor, bounds=(0.1, 10), units='1/hour')
     Tfc = r1.parameter('Tfc', value=283.15*factor, bounds=(250, 350), units='K')#, fixed=True)
     rhoc = r1.parameter('rhoc', value=1000*factor, bounds=(800, 2000), units='kg/m**3')#, fixed=True)
-    h = r1.parameter('h', value=3600*factor, bounds=(10, 5000), units='W/m**2/K')#, fixed=True)
+    h = r1.parameter('h', value=1000*factor, bounds=(10, 5000), units='W/m**2/K')#, fixed=True)
     
     # Declare the components and give the valueial values
     A = r1.component('A', value=1000, variance=0.001, units='mol/m**3')
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     Tc = r1.state('Tc', value=293.15, variance=0.001, units='K')
    
     # Change this to a clearner method
-    full_data = kipet_model.read_data_file('data/sim_chen.csv') #'cstr_t_and_c.csv')
+    full_data = kipet_model.read_data_file('data/all_data.csv')
     
     F = r1.constant('F', value=0.1, units='m**3/hour')
     Fc = r1.constant('Fc', value=0.15, units='m**3/hour')
@@ -64,8 +64,8 @@ if __name__ == "__main__":
     Cpc = r1.constant('Cpc', value=1.2, units='kJ/kg/K')
     Cp = r1.constant('Cp', value=1.55, units='kJ/kg/K')
     
-    r1.add_data('T_data', data=full_data[['T']].iloc[0::3], time_scale='hour')
-    r1.add_data('A_data', data=full_data[['A']].loc[[3.9, 2.6, 1.115505]], time_scale='hour')
+    r1.add_data('T_data', data=full_data[['T']], time_scale='hour')
+    #r1.add_data('A_data', data=full_data[['A']].loc[[3.9, 2.6, 1.115505]], time_scale='hour')
     
     # Not really necessary, but useful for tracking
     rA = r1.add_expression('rA', k*exp(-ER/T)*A, description='Reaction A' )
@@ -74,39 +74,21 @@ if __name__ == "__main__":
     r1.add_ode('T', F/V *(Tf - T) + delH/rho/Cp*rA - h*Ar/rho/Cp/V*(T -Tc) )
     r1.add_ode('Tc', Fc/Vc *(Tfc - Tc) + h*Ar/rhoc/Cpc/Vc*(T -Tc) )
     
-    # Convert the units to a uniform base
-    r1.check_component_units()
+    # Convert the units
     r1.check_model_units(display=True)
     
     r1.settings.solver.print_level = 5
-    r1.settings.collocation.ncp = 3
-    r1.settings.collocation.nfe = 50
-    #%%
-    # r1.set_times(0, 5)
-    #r1.simulate()
-
-    #r1.run_opt()
+    r1.settings.collocation.ncp = 1
+    r1.settings.collocation.nfe = 150
     
-    #print(r1.p_model.P.display())
-#     The estimable parameters are: Tf, Cfa, ER
+    # r1.set_times(0, 5)
+    # r1.simulate()
 
-# The final parameter values are:
-
-# K : Size=9, Index=parameter_names, Domain=Any, Default=1, Mutable=True
-#     Key  : Value
-#      Cfa :  3140.674373623379
-#       ER :   271.983476580714
-#       Tf : 351.77303749846436
-#      Tfc : 174.89148442051373
-#     delH :              192.0
-#        h :  6619.184601551319
-#        k : 3.3515406821369402
-#      rho : 1179.3532710305524
-#     rhoc : 1192.1386076798353
-    rh_method = 'global'
+    # r1.run_opt()
+    
+    rh_method = 'fixed'
     results = r1.rhps_method(method='k_aug',
                               calc_method=rh_method)
 
-    if with_plots:
-        r1.plot()
-
+    # if with_plots:
+    #     r1.plot()
