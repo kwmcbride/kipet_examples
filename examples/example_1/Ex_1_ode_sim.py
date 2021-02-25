@@ -16,6 +16,7 @@ if __name__ == "__main__":
             with_plots = False
     
     kipet_model = KipetModel()
+    kipet_model.ub.TIME_BASE = 's'
     
     r1 = kipet_model.new_reaction('reaction-1')
     
@@ -36,9 +37,9 @@ if __name__ == "__main__":
     r1.add_ode('C', rB )
 
     # # Option to check the units of your models
-    r1.check_model_units()
+    r1.check_model_units(display=True)
     # # Add dosing points 
-    #r1.add_dosing_point('A', 3, 0.3)
+    r1.add_dosing_point('A', 3, 0.3)
     
     # # Create the model - simulations require times
     r1.set_times(0, 10)
