@@ -16,7 +16,8 @@ if __name__ == "__main__":
             with_plots = False
  
     kipet_model = KipetModel()
- 
+    # kipet_model.ub.TIME_BASE = 'min'
+    
     r1 = kipet_model.new_reaction('reaction-1')   
  
     # Add the model parameters
@@ -37,10 +38,10 @@ if __name__ == "__main__":
     
     # Use step functions to turn on the reactions
     b1 = r1.step('b1', time=2, fixed=False, switch='on')
-    b2 = r1.step('b2', time=2.1, fixed=False, switch='on')
+    # b2 = r1.step('b2', time=2.1, fixed=True, switch='on')
     
     rA = b1*(k1*A)
-    rB = b2*(k2*B)
+    rB = b1*(k2*B)
     
     # Define the reaction model
     r1.add_ode('A', -rA )
@@ -58,7 +59,7 @@ if __name__ == "__main__":
     r1.run_opt()  
     
     # Display the results
-    r1.results.show_parameters
+    #r1.results.show_parameters
 
     if with_plots:
         r1.plot()
