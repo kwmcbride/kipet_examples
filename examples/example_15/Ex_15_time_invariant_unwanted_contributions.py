@@ -33,40 +33,29 @@ if __name__ == "__main__":
     C = r1.component('C', value=0.0)
     
     # define explicit system of ODEs
-    rates = {}
-    rates['A'] = -k1 * A
-    rates['B'] = k1 * A - k2 * B
-    rates['C'] = k2 * B
-  
-    r1.add_odes(rates)
+    rA = r1.add_reaction('rA', k1*A )
+    rB = r1.add_reaction('rB', k2*B )
+    
+    r1.add_ode('A', -rA )
+    r1.add_ode('B', rA - rB )
+    r1.add_ode('C', rB )    
     
      # Add the data
     r1.add_data(category='spectral', file='data/Dij_tiv_G.txt')
     
-    
     # Settings
-    #r1.settings.general.initialize_pe = False
+    # r1.settings.general.initialize_pe = False
     #r1.settings.general.no_user_scaling = True
     
     r1.settings.collocation.nfe = 100
-    
-    # For the "time-invariant" unwanted contribuiton cases, stoichiometric coefficients
-    # of each reaction (St) and/or dosing concentration for each dosing time (Z_in) are required
-    # to call the different objective function.
-    St = {}
-    St['r1'] = [-1, 1, 0]
-    St['r2'] = [0, -1, 0]
-    
+  
     # In this case, there is no dosing time. 
     # Therefore, the following expression just an input example 
     # if the user has dosing concentraion in the model.
     # Z_in = dict()
     # Z_in["t=5"] = [0,0,5]
 
-    # Assuming we know the "time_invariant" unwanted contribution is included,
-    # so set the option time_invariant_G=True. St and Z_in are transmitted as well.
-    # finally we run the optimization
-    r1.unwanted_contribution('time_invariant_G', St=St)
+    r1.unwanted_contribution('time_invariant_G')
 
     # Run KIPET
     r1.run_opt()

@@ -32,12 +32,12 @@ if __name__ == "__main__":
     C = r1.component('C', value=0.0)
     
     # define explicit system of ODEs
-    rates = {}
-    rates['A'] = -k1 * A
-    rates['B'] = k1 * A - k2 * B
-    rates['C'] = k2 * B
+    rA = r1.add_reaction('rA', k1*A )
+    rB = r1.add_reaction('rB', k2*B )
     
-    r1.add_odes(rates)
+    r1.add_ode('A', -rA )
+    r1.add_ode('B', rA - rB )
+    r1.add_ode('C', rB )
     
     filename1 = 'data/Dij_multexp_tiv_G.txt'
     filename2 = 'data/Dij_multexp_tv_G.txt'
@@ -45,18 +45,13 @@ if __name__ == "__main__":
     
     # Model 1
     r1.add_data(category='spectral', file=filename1)
-    
-    # Set up the parameter estimator
-    Ex1_St = dict()
-    Ex1_St["r1"] = [-1, 1, 0]
-    Ex1_St["r2"] = [0, -1 ,0]
+    r1.spectra.decrease_wavelengths(1)
 
-    r1.unwanted_contribution('time_invariant_G', St=Ex1_St)
-    # Each model has it's own unwanted G settings for the parameter estimato
-    r1.settings.general.freq_subset_lambdas = 2
+    r1.unwanted_contribution('time_invariant_G')
+    # Each model has it's own unwanted G settings for the parameter estimation
     r1.settings.solver.linear_solver = 'ma57'
     r1.settings.parameter_estimator.solver = 'ipopt'
-    r1.settings.parameter_estimator.scaled_variance = False
+    r1.settings.parameter_estimator.scaled_variance = True
     r1.settings.parameter_estimator.tee = True
     r1.settings.collocation.ncp = 3
     r1.settings.collocation.nfe = 60
@@ -64,11 +59,13 @@ if __name__ == "__main__":
     # Model 2
     r2 = kipet_model.new_reaction(name='reaction-2', model=r1)
     r2.add_data(category='spectral', file=filename2)
+    r2.spectra.decrease_wavelengths(1)
     r2.unwanted_contribution('time_variant_G')
     
-    # Create the other two models
+    # Model 3
     r3 = kipet_model.new_reaction(name='reaction-3', model=r1)
     r3.add_data(category='spectral', file=filename3)
+    r3.spectra.decrease_wavelengths(1)
     
     # Solve the models
     r1.run_opt()
