@@ -36,7 +36,7 @@ if __name__ == "__main__":
     rB = k2*B
     
     r1.add_ode('A', -rA)
-    r1.add_ode('B', -rA + rB)
+    r1.add_ode('B', rA - rB)
     r1.add_ode('C', rB)
 
     # Settings
