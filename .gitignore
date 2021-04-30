@@ -17,7 +17,10 @@ examples/*/charts/
 *tmp_Z
 *tmp_S
 *.nl
-
+*rhs_sens_scaled
+*rhs_dcdp
+*sigma_out
+*.opt
 
 # C extensions
 *.so
