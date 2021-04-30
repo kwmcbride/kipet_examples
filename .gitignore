@@ -15,8 +15,8 @@ examples/*/charts/
 *.sol
 *tmp_C
 *tmp_Z
-*tmp_P
-
+*tmp_S
+*.nl
 
 
 # C extensions
