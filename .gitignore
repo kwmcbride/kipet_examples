@@ -7,6 +7,17 @@ __pycache__/
 examples/*/charts/
 *.html
 
+# random k_aug stuff
+*.txt
+*.in
+*.col
+*.row
+*.sol
+*tmp_C
+*tmp_Z
+*tmp_P
+
+
 
 # C extensions
 *.so
