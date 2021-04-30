@@ -68,7 +68,7 @@ if __name__ == "__main__":
     #r1.add_data('A_data', data=full_data[['A']].loc[[3.9, 2.6, 1.115505]], time_scale='hour')
     
     # Not really necessary, but useful for tracking
-    rA = r1.add_expression('rA', k*exp(-ER/T)*A, description='Reaction A' )
+    rA = r1.add_reaction('rA', k*exp(-ER/T)*A, description='Reaction A' )
     
     r1.add_ode('A', F/V*(Cfa - A) - rA )
     r1.add_ode('T', F/V *(Tf - T) + delH/rho/Cp*rA - h*Ar/rho/Cp/V*(T -Tc) )
