@@ -37,6 +37,7 @@ if __name__ == "__main__":
     r1.add_ode('B', rA - rB )
     r1.add_ode('C', rB )
     
+    # Optinal bounds on the S profiles
     r1.bound_profile(var='S', bounds=(0, 10))
 
     # Change some of the default settings
