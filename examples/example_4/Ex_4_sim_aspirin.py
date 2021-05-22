@@ -136,6 +136,6 @@ if __name__ == "__main__":
     # Run the simulation
     rm.simulate()
 
-    # # Plot the results
+    # Plot the results
     if with_plots:
         rm.plot('Z')
