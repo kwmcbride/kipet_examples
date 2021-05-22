@@ -1,12 +1,10 @@
-"""Example 1: ODE Simulation with new KipetModel"""
+"""Example 1: Simple simulation example"""
 
 # Standard library imports
 import sys
 
-# Third party imports
-
 # Kipet library imports
-from kipet import KipetModel
+import kipet
 
 if __name__ == "__main__":
 
@@ -15,11 +13,12 @@ if __name__ == "__main__":
         if int(sys.argv[1]):
             with_plots = False
     
-    kipet_model = KipetModel()
-    kipet_model.ub.TIME_BASE = 's'
+    # Create the ReactionModel instance
+    r1 = kipet.ReactionModel('reaction-1')
     
-    r1 = kipet_model.new_reaction('reaction-1')
-    
+    # Change the desired time basis here (if different from default)
+    r1.unit_base.time = 's'
+
     # Add the model parameters
     k1 = r1.parameter('k1', value=2, units='1/s')
     k2 = r1.parameter('k2', value=0.2, units='1/s')
@@ -29,27 +28,31 @@ if __name__ == "__main__":
     B = r1.component('B', value=0.0, units='M')
     C = r1.component('C', value=0.0, units='M')
     
-    rA = r1.add_expression('rA', k1*A)
-    rB = r1.add_expression('rB', k2*B)
+    # Input the reactions as expressions
+    rA = r1.add_reaction('rA', k1*A)
+    rB = r1.add_reaction('rB', k2*B)
     
+    # Input the ODEs
     r1.add_ode('A', -rA )
     r1.add_ode('B', rA - rB )
     r1.add_ode('C', rB )
 
     # # Option to check the units of your models
     r1.check_model_units(display=True)
+    
     # # Add dosing points 
     r1.add_dosing_point('A', 3, 0.3)
     
-    # # Create the model - simulations require times
-    r1.set_times(0, 10)
-    # r1.create_pyomo_model()
+    # Simulations require a time span
+    r1.set_time(10)
     
+    # Change some of the default settings
     r1.settings.collocation.ncp = 3
     r1.settings.collocation.nfe = 50
 
-    #Simulate with default options
+    # Simulate
     r1.simulate()
     
+    # Create plots
     if with_plots:
         r1.plot()
