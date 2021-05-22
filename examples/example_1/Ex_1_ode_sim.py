@@ -1,5 +1,6 @@
-"""Example 1: Simple simulation example"""
-
+"""
+Example 1: Simple simulation example
+"""
 # Standard library imports
 import sys
 
