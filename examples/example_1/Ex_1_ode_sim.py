@@ -6,12 +6,12 @@ import sys
 # Kipet library imports
 import kipet
 
+
 if __name__ == "__main__":
 
     with_plots = True
-    if len(sys.argv)==2:
-        if int(sys.argv[1]):
-            with_plots = False
+    if len(sys.argv)==2 and int(sys.argv[1]):
+        with_plots = False
     
     # Create the ReactionModel instance
     r1 = kipet.ReactionModel('reaction-1')

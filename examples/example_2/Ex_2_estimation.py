@@ -7,6 +7,7 @@ import sys # Only needed for running the example from the command line
 # Kipet library imports
 import kipet
 
+
 if __name__ == "__main__":
 
     with_plots = True
