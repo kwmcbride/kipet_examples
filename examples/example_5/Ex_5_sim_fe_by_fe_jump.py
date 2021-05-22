@@ -1,4 +1,5 @@
-"""Example 5: Simulation with extra states and dosing
+"""
+Example 5: Simulation with extra states and dosing
 
 """
 # Standard library imports
