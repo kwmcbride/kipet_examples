@@ -1,24 +1,21 @@
-"""Example 7: Estimation using measured concentration data with new KipetModel"""
-
+"""
+Example 7: Estimation using measured concentration data and unknown reaction
+start
+"""
 # Standard library imports
 import sys # Only needed for running the example from the command line
 
-# Third party imports
-
 # Kipet library imports
-from kipet import KipetModel
-                                                                                                    
+import kipet
+            
+                                                                                        
 if __name__ == "__main__":
 
     with_plots = True
-    if len(sys.argv)==2:
-        if int(sys.argv[1]):
-            with_plots = False
- 
-    kipet_model = KipetModel()
-    # kipet_model.ub.TIME_BASE = 'min'
+    if len(sys.argv)==2 and int(sys.argv[1]):
+        with_plots = False
     
-    r1 = kipet_model.new_reaction('reaction-1')   
+    r1 = kipet.ReactionModel('reaction-1')   
  
     # Add the model parameters
     k1 = r1.parameter('k1', value=2.0, bounds=(0.0, 5.0))
@@ -29,15 +26,16 @@ if __name__ == "__main__":
     B = r1.component('B', value=0.0, variance=1e-11)
     C = r1.component('C', value=0.0, variance=1e-8)
    
-    # Use this function to replace the old filename set-up
+    # Load data and reduce the number of data points used
     filename = 'data/delayed_data.csv'
-    full_data = kipet_model.read_data_file(filename)
+    full_data = kipet.read_data(filename)
     
     data_set = full_data.iloc[::3]
     r1.add_data('C_data', data=data_set)
     
     # Use step functions to turn on the reactions
     b1 = r1.step('b1', time=2, fixed=False, switch='on')
+    # Alternatively you can use a second binary switch
     # b2 = r1.step('b2', time=2.1, fixed=True, switch='on')
     
     rA = b1*(k1*A)
@@ -52,14 +50,11 @@ if __name__ == "__main__":
     r1.settings.collocation.nfe = 60
     r1.settings.collocation.ncp = 3
     
-    r1.settings.solver.linear_solver = 'ma57'
-    r1.settings.parameter_estimator.sim_init = True
-    
-    # # Run KIPET
+    # Run KIPET
     r1.run_opt()  
     
     # Display the results
-    #r1.results.show_parameters
+    r1.results.show_parameters
 
     if with_plots:
         r1.plot()
