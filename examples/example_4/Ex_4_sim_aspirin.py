@@ -1,27 +1,23 @@
-"""Example 4: Simulated Asprin reaction with new KipetModel
-
+"""
+Example 4: Simulated Asprin with fixed states and stoichiometric matrix
 """
 # Standard library imports
 import sys # Only needed for running the example from the command line
 
 # Third party imports
-import pandas as pd
-from pyomo.environ import exp
+from pyomo.core import exp
 
 # Kipet library imports
-from kipet import KipetModel
+import kipet
+
 
 if __name__ == "__main__":
-    
+
     with_plots = True
-    if len(sys.argv)==2:
-        if int(sys.argv[1]):
-            with_plots = False
+    if len(sys.argv)==2 and int(sys.argv[1]):
+        with_plots = False
     
-    # This holds the model
-    kipet_model = KipetModel()
-    
-    rm = kipet_model.new_reaction('reaction-1')
+    rm = kipet.ReactionModel('reaction-1')
 
     # Components
     SA = rm.component('SA', value=1.0714, description='Salicitilc acid')
@@ -32,7 +28,6 @@ if __name__ == "__main__":
     H2O = rm.component('H2O', value=0.0, description='Water')
     
     # Parameters
-    params = dict()
     k0 = rm.parameter('k0', value=0.0360309)
     k1 = rm.parameter('k1', value=0.1596062)
     k2 = rm.parameter('k2', value=6.8032345)
@@ -42,17 +37,15 @@ if __name__ == "__main__":
     Csa = rm.parameter('Csa',value=2.06269996)
     
     # Additional state variables
-    extra_states = dict()
     V = rm.state('V', value=0.0202)
     Masa = rm.state('Masa', value=0.0)
     Msa = rm.state('Msa', value=9.537)
     
-    # Algebraics
-    reactions = ['r0','r1','r2','r3','r4','r5']
-    
+    # Fixed states (data is provided using the data keyword argument)
     f = rm.fixed_state('f', description='flow f', data='traj')
     Csat = rm.fixed_state('Csat', description='C saturation', data='traj')
-
+    
+    # Stoichiometric matrix (component based)
     gammas = dict()
     gammas['SA']=    [-1, 0, 0, 0, 1, 0]
     gammas['AA']=    [-1,-1, 0,-1, 0, 0]
@@ -77,6 +70,7 @@ if __name__ == "__main__":
     partial_vol['ASAA']=0.186550717015
     partial_vol['H2O']=0.0883603912169
 
+    # Adding data
     filename = 'data/extra_states.txt'
     rm.add_data('traj', category='trajectory', file=filename)
     
@@ -92,43 +86,49 @@ if __name__ == "__main__":
     filename = 'data/init_Y.csv'
     rm.add_data('init_Y', category='trajectory', file=filename)
 
-    # Algebraics
-    r0 = rm.add_expression('r0', k0*SA*AA, description='Reaction 0')
-    r1 = rm.add_expression('r1', k1*ASA*AA, description='Reaction 1' )
-    r2 = rm.add_expression('r2', k2*ASAA*H2O, description='Reaction 2' )
-    r3 = rm.add_expression('r3', k3*AA*H2O, description='Reaction 3')
+    # Reactions
+    r0 = rm.add_reaction('r0', k0*SA*AA, description='Reaction 0')
+    r1 = rm.add_reaction('r1', k1*ASA*AA, description='Reaction 1' )
+    r2 = rm.add_reaction('r2', k2*ASAA*H2O, description='Reaction 2' )
+    r3 = rm.add_reaction('r3', k3*AA*H2O, description='Reaction 3')
     
     step = 1/(1 + exp(-Msa/1e-4))
-    r4 = rm.add_expression('r4', kd*(Csa - SA + 1e-6)**1.90*step, description='Reaction 4' )
+    r4 = rm.add_reaction('r4', kd*(Csa - SA + 1e-6)**1.90*step, description='Reaction 4' )
     
     diff = ASA - Csat
-    r5 = rm.add_expression('r5', 0.3950206559*kc*(diff+((diff)**2+1e-6)**0.5)**1.34, description='Reaction 5' )
+    r5 = rm.add_reaction('r5', 0.3950206559*kc*(diff+((diff)**2+1e-6)**0.5)**1.34, description='Reaction 5' )
     
+    # Generate the ODEs for the reactions based on the stoichiometric matrix
+    # Since we need to modfiy the ODEs, add_odes should be False
+    odes = rm.reactions_from_stoich(gammas, add_odes=False)
+    
+    v_sum_float = 0
     Cin = 39.1
-    v_sum_float = 0.0
-   
+    
+    # Build expression for the volume
     for com in rm.components.names:
-        v_sum_float += partial_vol[com]*(sum(gammas[com][j]*rm.ae(f'r{j}') for j in range(6)) + epsilon[com]*f/V*Cin)
+        v_sum_float += partial_vol[com] * (odes[com] + epsilon[com]*f/V*Cin)
     
     v_sum = rm.add_expression('v_sum', v_sum_float, description='Volume Sum')
     
-    # ODES
-    Cin = 41.4
-    rm.add_ode('V', V*v_sum )
-    
+    # If calling a component (such as A or B) in a loop, use the pyomo_var attribute
+    # Add ODEs for the components
     for com in rm.components.names:
-        rm.add_ode(com, sum(gammas[com][j]*rm.ae(f'r{j}') for j in range(6)) + epsilon[com]*f/V*Cin - v_sum*rm.components[com].pyomo_var)
+        rm.add_ode(com, odes[com] + epsilon[com]*f/V*Cin - v_sum*rm.components[com].pyomo_var)
     
+    # Add ODEs for complementary states
+    rm.add_ode('V', V*v_sum )
     rm.add_ode('Masa', 180.157*V*r5 )
     rm.add_ode('Msa', -138.121*V*r4 )
 
-    #Create the model
-    rm.set_times(0, 210.5257)
+    # Simulations require a time span
+    rm.set_time(210.5257)
 
     # Settings
     rm.settings.collocation.nfe = 100
     rm.settings.simulator.solver_opts.update({'halt_on_ampl_error' :'yes'})
     
+    # Initialize the model variables with the provided data
     rm.initialize_from_trajectory('Z', 'init_Z')
     rm.initialize_from_trajectory('X', 'init_X')
     rm.initialize_from_trajectory('Y', 'init_Y')
@@ -138,4 +138,4 @@ if __name__ == "__main__":
 
     # # Plot the results
     if with_plots:
-        rm.plot()
+        rm.plot('Z')
