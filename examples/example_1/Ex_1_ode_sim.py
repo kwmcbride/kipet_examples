@@ -37,10 +37,10 @@ if __name__ == "__main__":
     r1.add_ode('B', rA - rB )
     r1.add_ode('C', rB )
 
-    # # Option to check the units of your models
+    # Option to check the units of your models
     r1.check_model_units(display=True)
     
-    # # Add dosing points 
+    # Add dosing points 
     r1.add_dosing_point('A', 3, 0.3)
     
     # Simulations require a time span
