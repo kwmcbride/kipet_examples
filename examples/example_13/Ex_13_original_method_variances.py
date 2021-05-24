@@ -7,18 +7,16 @@ import sys # Only needed for running the example from the command line
 # Third party imports
 
 # Kipet library imports
-from kipet import KipetModel
+import kipet
+
 
 if __name__ == "__main__":
 
     with_plots = True
-    if len(sys.argv)==2:
-        if int(sys.argv[1]):
-            with_plots = False
- 
-    kipet_model = KipetModel()
+    if len(sys.argv)==2 and int(sys.argv[1]):
+        with_plots = False
     
-    r1 = kipet_model.new_reaction('reaction-1')
+    r1 = kipet.ReactionModel('reaction-1')
 
     # Add the model parameters
     k1 = r1.parameter('k1', value=1.2, bounds=(0.01, 5.0))
@@ -31,15 +29,12 @@ if __name__ == "__main__":
     
     r1.add_data(category='spectral', file='data/varest2.csv', remove_negatives=True)
 
-    rates = {}
-    rates['A'] = -k1 * A
-    rates['B'] = k1 * A - k2 * B
-    rates['C'] = k2 * B
-    
-    r1.add_odes(rates)
+    # Define the reaction model
+    r1.add_ode('A', -k1 * A )
+    r1.add_ode('B', k1 * A - k2 * B )
+    r1.add_ode('C', k2 * B )
 
     # Settings
-    r1.settings.general.no_user_scaling = True
     r1.settings.variance_estimator.tolerance = 1e-10
     r1.settings.parameter_estimator.tee = False
     r1.settings.parameter_estimator.solver = 'ipopt_sens'
