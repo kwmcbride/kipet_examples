@@ -26,7 +26,7 @@ if __name__ == "__main__":
     
     # Declare the components and give the initial values
     A = r1.component('A', value=1.0, units='M')
-    B = r1.component('B', value=0.0, units='M')
+    B = r1.component('B', value=0.5, units='M')
     C = r1.component('C', value=0.0, units='M')
     
     # Input the reactions as expressions
@@ -41,8 +41,10 @@ if __name__ == "__main__":
     # Option to check the units of your models
     r1.check_model_units(display=True)
     
-    # Add dosing points 
-    r1.add_dosing_point('A', 3, 0.3)
+    # Dosing requires the component, the time, the concentration, and volume
+    # The concentrations and volumes are converted ot the unit_base values
+    r1.add_dosing_point('A', time=3, conc=(2, 'M'), vol=(200, 'mL'))
+    r1.add_dosing_point('A', time=5, conc=(3, 'M'), vol=(0.33, 'L'))
     
     # Simulations require a time span
     r1.set_time(10)
