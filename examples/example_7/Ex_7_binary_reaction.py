@@ -25,6 +25,8 @@ if __name__ == "__main__":
     A = r1.component('A', value=0.001, variance=1e-10)
     B = r1.component('B', value=0.0, variance=1e-11)
     C = r1.component('C', value=0.0, variance=1e-8)
+    
+    #V = r1.volume(value=1)
    
     # Load data and reduce the number of data points used
     filename = 'data/delayed_data.csv'
