@@ -16,17 +16,14 @@ import kipet
 if __name__ == "__main__":
 
     with_plots = True
-    if len(sys.argv)==2:
-        if int(sys.argv[1]):
-            with_plots = False
+    if len(sys.argv)==2 and int(sys.argv[1]):
+        with_plots = False
     
-    kipet_model = kipet.KipetModel()
-    kipet_model.settings.units.time = 's'
-    kipet_model.reset_base_units()
+    r1 = kipet.ReactionModel('reaction-1')
+    r1.unit_base.time = 's'
     
-    full_data = kipet_model.read_data_file('data/ratios.csv')
-    r1 = kipet_model.new_reaction('reaction-1')
-    
+    full_data = kipet.read_data('data/ratios.csv')
+
     # Add the model parameters
     k1 = r1.parameter('k1', value=2, bounds=(0.0, 10.0), units='1/s')
     k2 = r1.parameter('k2', value=0.2, bounds=(0.0, 10.0), units='1/s')
@@ -53,10 +50,7 @@ if __name__ == "__main__":
     # Add the custom objective varibale to the model using the following method:
     r1.add_objective_from_algebraic('y')
      
-    r1.settings.general.no_user_scaling = True
-    r1.settings.parameter_estimator.sim_init = False
-    r1.settings.solver.linear_solver = 'ma57'
-    
+    # Run optimization
     r1.run_opt()
     
     r1.results.show_parameters
