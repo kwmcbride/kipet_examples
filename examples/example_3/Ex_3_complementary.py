@@ -27,7 +27,7 @@ if __name__ == "__main__":
     C = r1.component('C', value=0.0)
     
     T = r1.state('T', value=290, description='Temperature')
-    V = r1.state('V', value=100, description='Volumne')
+    V = r1.volume(value=100, description='Volume')
 
     # Define the expressions - note that expression method is not used!
     k1 = 1.25*exp((9500/1.987)*(1/320.0 - 1/T))
@@ -55,8 +55,10 @@ if __name__ == "__main__":
     r1.set_time(2.0)
     
     # Change some of the default settings
-    r1.settings.collocation.nfe = 20
+    r1.settings.collocation.nfe = 40
     r1.settings.collocation.ncp = 1
+    r1.settings.general.add_volume_terms = False
+    r1.settings.simulator.method = 'dae.collocation'
 
     # Simulation
     r1.simulate()  
