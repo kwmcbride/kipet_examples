@@ -34,20 +34,23 @@ if __name__ == "__main__":
     k3 = r1.parameter('k3', value=0.31087)
     k4 = r1.parameter('k4', value=3.87809)
     
-    # States
-    V = r1.state('V', state='state', value=0.0629418)
+    # States - is_volume must be True if using Volume and V for its name
+    V = r1.volume(value=0.0629418, units='L')
+
+    feed_time = 210
     
     # Stoichiometric coefficients
     stoich_coeff = dict()
-    stoich_coeff['AH'] = [-1, 0, 0, -1, 0]
-    stoich_coeff['B'] = [-1, 0, 0, 0, 1]
-    stoich_coeff['C'] = [0, -1, 1, 0, 0]
-    stoich_coeff['BHp'] = [1, 0, 0, 0, -1]
-    stoich_coeff['Am'] = [1, -1, 1, 1, 0]
-    stoich_coeff['ACm'] = [0, 1, -1, -1, -1]
-    stoich_coeff['P'] = [0, 0, 0, 1, 1]
+    stoich_coeff['AH'] =  [-1,  0,  0, -1,  0]
+    stoich_coeff['B'] =   [-1,  0,  0,  0,  1]
+    stoich_coeff['C'] =   [ 0, -1,  1,  0,  0]
+    stoich_coeff['BHp'] = [ 1,  0,  0,  0, -1]
+    stoich_coeff['Am'] =  [ 1, -1,  1,  1,  0]
+    stoich_coeff['ACm'] = [ 0,  1, -1, -1, -1]
+    stoich_coeff['P'] =   [ 0,  0,  0,  1,  1]
     
-    V_step = r1.step('V_step', time=210, fixed=True, switch='off')
+    # Volume changes due to feed (first 3.5 hours)
+    V_step = r1.step('V_step', time=feed_time, fixed=True, switch='off')
     V_flow = r1.constant('V_flow', value=7.27609e-5)
     
     y0 = r1.add_reaction('y0', k0*AH*B, description='Reaction 0')
@@ -58,19 +61,16 @@ if __name__ == "__main__":
     
     RE = r1.reactions_from_stoich(stoich_coeff, add_odes=False)
     # Modify component C
-    RE['C'] += 0.02247311828 / (V * 210) * V_step
-    
-    # Add the volume change to each component ODE
-    for com in r1.components.names:
-        RE[com] -= V_flow*V_step/V*r1.components[com].pyomo_var
+    RE['C'] += 0.02247311828 / (V * feed_time) * V_step
     
     # ODEs
+    dVdt = r1.add_ode('V', V_flow*V_step)
     r1.add_odes(RE)
-    r1.add_ode('V', V_flow*V_step)
+    #r1.add_volume_terms('V')
     
     # Add dosing points (as many as you want in this format)
-    # ('component_name', time, amount)
-    r1.add_dosing_point('AH', 100, 0.3)
+    # ('component_name', time, conc=(value, units), volume=(amount, units))
+    r1.add_dosing_point('AH', time=100, conc=(1.3, 'M'), vol=(20, 'mL'))
     
     # Simulations require a time span
     r1.set_time(600)
@@ -84,4 +84,4 @@ if __name__ == "__main__":
     
     # Create plots
     if with_plots:
-        r1.plot()
+        r1.plot('Z')
