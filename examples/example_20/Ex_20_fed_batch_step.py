@@ -9,23 +9,20 @@ import sys
 # Third party imports
 
 # Kipet library imports
-from kipet import KipetModel
+import kipet
 
 
 if __name__ == "__main__":
 
     with_plots = True
-    if len(sys.argv)==2:
-        if int(sys.argv[1]):
-            with_plots = False
+    if len(sys.argv)==2 and int(sys.argv[1]):
+        with_plots = False
 
-    kipet_model = KipetModel()
+    r1 = kipet.ReactionModel('fed_batch_parest')
     
     # Set the base time unit (match data)
-    kipet_model.ub.TIME_BASE = 'min'
-    kipet_model.ub.VOLUME_BASE = 'L'
-    
-    r1 = kipet_model.new_reaction('fed_batch_parest')
+    r1.unit_base.time = 'min'
+    r1.unit_base.volume = 'L'
     
     # Reaction rate constant (parameter to fit)
     k1 = r1.parameter('k1', value = 0.05, units='ft**3/mol/min')
@@ -36,7 +33,7 @@ if __name__ == "__main__":
     C = r1.component('C', value=0.0, units='mol/L')
     
     # Reactor volume
-    V = r1.state('V', value = 0.264172, units='gal')
+    V = r1.volume(value = 0.264172, units='gal')
     
     # Step function for B feed - steps can be added
     s_Qin_B = r1.step('s_Qin_B', coeff=1, time=15, switch='off')
@@ -49,13 +46,12 @@ if __name__ == "__main__":
     
     # Add the data
     filename = 'data/abc_fedbatch.csv'
-    
     r1.add_data('C_data', file=filename, remove_negatives=True, time_scale='min')
     
     # Convert your model components to a common base
     # KIPET assumes that the provided data has the same units and will be
     # converted as well - be careful!
-    # r1.check_component_units()
+    #r1.check_component_units()
     
     Qin = Qin_B * s_Qin_B
     
@@ -69,9 +65,6 @@ if __name__ == "__main__":
     
     # Check for consistant units in the model equations
     r1.check_model_units(display=True)
-
-    # # r1.settings.solver.linear_solver = 'ma57'
-    # # r1.settings.parameter_estimator.sim_init = True
     
     r1.run_opt()
     
