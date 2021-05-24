@@ -19,19 +19,17 @@ from pyomo.environ import exp
 
 # Kipet library imports
 import kipet
-
+                                                                                                    
 if __name__ == "__main__":
 
     with_plots = True
-    if len(sys.argv)==2:
-        if int(sys.argv[1]):
-            with_plots = False
+    if len(sys.argv)==2 and int(sys.argv[1]):
+        with_plots = False
     
-    kipet_model = kipet.KipetModel()
-    kipet_model.ub.TIME_BASE = 'hr'
-    kipet_model.ub.VOLUME_BASE = 'm**3'
+    r1 = kipet.ReactionModel('cstr')
     
-    r1 = kipet_model.new_reaction('cstr')
+    r1.unit_base.time = 'hr'
+    r1.unit_base.volume = 'm**3'
     
     # Perturb the initial parameter values by some factor
     factor = 1.2
@@ -53,7 +51,7 @@ if __name__ == "__main__":
     Tc = r1.state('Tc', value=293.15, variance=0.001, units='K')
    
     # Change this to a clearner method
-    full_data = kipet_model.read_data_file('data/all_data.csv')
+    full_data = kipet.read_data('data/all_data.csv')
     
     F = r1.constant('F', value=0.1, units='m**3/hour')
     Fc = r1.constant('Fc', value=0.15, units='m**3/hour')
@@ -81,14 +79,6 @@ if __name__ == "__main__":
     r1.settings.collocation.ncp = 1
     r1.settings.collocation.nfe = 150
     
-    # r1.set_times(0, 5)
-    # r1.simulate()
-
-    # r1.run_opt()
-    
     rh_method = 'fixed'
     results = r1.rhps_method(method='k_aug',
-                              calc_method=rh_method)
-
-    # if with_plots:
-    #     r1.plot()
+                             calc_method=rh_method)
