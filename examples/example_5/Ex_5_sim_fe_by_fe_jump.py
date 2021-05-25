@@ -53,11 +53,11 @@ if __name__ == "__main__":
     V_step = r1.step('V_step', time=feed_time, fixed=True, switch='off')
     V_flow = r1.constant('V_flow', value=7.27609e-5)
     
-    y0 = r1.add_reaction('y0', k0*AH*B, description='Reaction 0')
-    y1 = r1.add_reaction('y1', k1*Am*C, description='Reaction 1')
-    y2 = r1.add_reaction('y2', k2*ACm, description='Reaction 2')
-    y3 = r1.add_reaction('y3', k3*ACm*AH, description='Reaction 3')
-    y4 = r1.add_reaction('y4', k4*ACm*BHp, description='Reaction 4')
+    r1.add_reaction('y0', k0*AH*B, description='Reaction 0')
+    r1.add_reaction('y1', k1*Am*C, description='Reaction 1')
+    r1.add_reaction('y2', k2*ACm, description='Reaction 2')
+    r1.add_reaction('y3', k3*ACm*AH, description='Reaction 3')
+    r1.add_reaction('y4', k4*ACm*BHp, description='Reaction 4')
     
     RE = r1.reactions_from_stoich(stoich_coeff, add_odes=False)
     # Modify component C
@@ -70,7 +70,7 @@ if __name__ == "__main__":
     
     # Add dosing points (as many as you want in this format)
     # ('component_name', time, conc=(value, units), volume=(amount, units))
-    r1.add_dosing_point('AH', time=100, conc=(1.3, 'M'), vol=(20, 'mL'))
+    #r1.add_dosing_point('AH', time=100, conc=(1.3, 'M'), vol=(20, 'mL'))
     
     # Simulations require a time span
     r1.set_time(600)
@@ -84,4 +84,4 @@ if __name__ == "__main__":
     
     # Create plots
     if with_plots:
-        r1.plot('Z')
+        r1.plot()
