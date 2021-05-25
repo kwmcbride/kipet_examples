@@ -16,7 +16,7 @@ if __name__ == "__main__":
     if len(sys.argv)==2 and int(sys.argv[1]):
         with_plots = False
     
-    lab = kipet.ReactionLab()
+    lab = kipet.ReactionSet()
     
     r1 = lab.new_reaction(name='reaction-1')
     
