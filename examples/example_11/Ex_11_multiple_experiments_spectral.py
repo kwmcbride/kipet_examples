@@ -16,7 +16,7 @@ if __name__ == "__main__":
         with_plots = False
     
     # Define the general model
-    lab = kipet.ReactionLab()
+    lab = kipet.ReactionSet()
     
     r1 = lab.new_reaction('reaction-1')
 
