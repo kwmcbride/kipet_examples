@@ -45,6 +45,7 @@ if __name__ == "__main__":
     r1.settings.collocation.ncp = 1
     r1.settings.collocation.nfe = 60
     r1.settings.parameter_estimator.tee = True
+    r1.settings.parameter_estimator.solver = 'k_aug'
     
     # Parameter fitting
     r1.run_opt()

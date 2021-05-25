@@ -4,8 +4,6 @@ Advanced Demonstration 13: How to solve problems with unknown initial conditions
 # Standard library imports
 import sys
 
-# Third party imports
-
 # KIPET library imports
 import kipet
 
@@ -16,7 +14,7 @@ if __name__ == "__main__":
     if len(sys.argv)==2 and int(sys.argv[1]):
         with_plots = False
     
-    lab = kipet.ReactionLab()
+    lab = kipet.ReactionSet()
  
     r1 = lab.new_reaction('reaction-1')   
  
@@ -41,6 +39,7 @@ if __name__ == "__main__":
     
     # Repeat for the second model - the only difference is the dataset    
     r2 = lab.new_reaction(name='reaction-2', model=r1)
+    
     # Simulated second dataset with noise
     noised_data = kipet.add_noise_to_data(r1.datasets['ds-1'].data, 0.0001) 
     
