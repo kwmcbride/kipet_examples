@@ -7,10 +7,9 @@ import sys # Only needed for running the example from the command line
 
 # Kipet library imports
 import kipet
-            
-                                                                                        
-if __name__ == "__main__":
 
+if __name__ == "__main__": 
+    
     with_plots = True
     if len(sys.argv)==2 and int(sys.argv[1]):
         with_plots = False
@@ -18,15 +17,13 @@ if __name__ == "__main__":
     r1 = kipet.ReactionModel('reaction-1')   
  
     # Add the model parameters
-    k1 = r1.parameter('k1', value=2.0, bounds=(0.0, 5.0))
-    k2 = r1.parameter('k2', value=0.2, bounds=(0.0, 2.0))
+    k1 = r1.parameter('k1', value=2.0, bounds=(0.0, 5.0), fixed=False)
+    k2 = r1.parameter('k2', value=0.2, bounds=(0.0, 5.0))
     
     # Declare the components and give the initial values
     A = r1.component('A', value=0.001, variance=1e-10)
     B = r1.component('B', value=0.0, variance=1e-11)
     C = r1.component('C', value=0.0, variance=1e-8)
-    
-    #V = r1.volume(value=1)
    
     # Load data and reduce the number of data points used
     filename = 'data/delayed_data.csv'
@@ -54,9 +51,7 @@ if __name__ == "__main__":
     
     # Run KIPET
     r1.run_opt()  
-    
-    # Display the results
-    r1.results.show_parameters
 
     if with_plots:
-        r1.plot()
+        r1.report()
+            
