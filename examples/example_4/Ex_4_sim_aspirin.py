@@ -143,4 +143,6 @@ if __name__ == "__main__":
 
     # Plot the results
     if with_plots:
-        rm.plot('Z')
+        rm.report()
+
+
