@@ -27,6 +27,8 @@ if __name__ == "__main__":
     
     # Add the data
     r1.add_data(category='spectral', file='data/Dij.txt')
+    r1.spectra.decrease_wavelengths(4)
+    r1.spectra.decrease_times(4)
     
     # Declare the reactions
     rA = r1.add_reaction('rA', k1*A, description='Reaction A' )
@@ -34,7 +36,7 @@ if __name__ == "__main__":
 
     # Use the stoichiometry to build the reaction network:
     stoich_data = {'rA': [-1, 1, 0],
-                   'rB': [0, -1, 1]}
+                   'rB': [ 0,-1, 1]}
     
     # Build ODEs from stoichiometry and add to the ReactionModel
     r1.reactions_from_stoich(stoich_data, add_odes=True)
@@ -46,6 +48,9 @@ if __name__ == "__main__":
     r1.settings.variance_estimator.tolerance = 1e-4
     r1.settings.parameter_estimator.tee = False
     
+    #r1.settings.parameter_estimator.covariance = 'ipopt_sens'
+    r1.settings.parameter_estimator.covariance = 'k_aug'
+    
     # Perform parameter fitting
     r1.run_opt()
     
@@ -54,4 +59,5 @@ if __name__ == "__main__":
     
     # Create plots
     if with_plots:
-        r1.plot()
+        r1.report()
+        
