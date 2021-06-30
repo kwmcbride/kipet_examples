@@ -39,18 +39,18 @@ if __name__ == "__main__":
     r1.add_ode('C', rB )
     
     # Optinal bounds on the S profiles
-    r1.bound_profile(var='S', bounds=(0, 10))
+    #r1.bound_profile(var='S', bounds=(0, 10))
 
     # Change some of the default settings
     r1.settings.collocation.ncp = 1
     r1.settings.collocation.nfe = 60
-    r1.settings.parameter_estimator.tee = True
-    r1.settings.parameter_estimator.solver = 'k_aug'
-    
+
+    #r1.settings.parameter_estimator.covariance = 'k_aug'
+    r1.settings.parameter_estimator.covariance = 'ipopt_sens'
+
     # Parameter fitting
     r1.run_opt()
     
     # Create plots
     if with_plots:
-        r1.plot()
-    
+        r1.report()
