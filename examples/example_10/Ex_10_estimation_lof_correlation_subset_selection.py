@@ -44,7 +44,7 @@ if __name__ == "__main__":
     r1.settings.collocation.nfe = 60
     # This needs to be set to False to keep the reduced hessian output surpressed
     r1.settings.parameter_estimator.tee = False
-    r1.settings.parameter_estimator.solver = 'ipopt_sens'
+    r1.settings.parameter_estimator.covariance = 'ipopt_sens'
     r1.settings.solver.mu_init = 1e-4
     r1.settings.solver.linear_solver = 'ma57'
     
@@ -71,13 +71,6 @@ if __name__ == "__main__":
     
     # It seems like this is a good cut-off point
     subset = r1.wavelength_subset_selection(n=0.095) 
-    
-    # Without a reset method for the TemplateBuilder, this is the best right now
-    #r2 = kipet_model.new_reaction(name='subset', model=r1)
-    #r2._builder.clear_data()
-    #r2.add_data('D_frame', category='spectral', file='data/Dij.txt')
-    #r1.spectra.decrease_wavelengths(specific_subset=subset)
-    #r1._run_pe_opt()
     
     # Solve the ParameterEstimator using the wavelength subset
     subset_results = r1.run_opt_with_subset_lambdas(subset) 
