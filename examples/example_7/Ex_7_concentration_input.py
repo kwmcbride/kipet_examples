@@ -18,11 +18,11 @@ if __name__ == "__main__":
     r1 = kipet.ReactionModel('reaction-1')   
  
     # Add the model parameters
-    k1 = r1.parameter('k1', value=2.0, bounds=(0.0, 5.0))
+    k1 = r1.parameter('k1', value=2.0, bounds=(0.0, 5.0), fixed=False)
     k2 = r1.parameter('k2', value=0.2, bounds=(0.0, 2.0), fixed=False)
     
     # Declare the components and give the initial values
-    A = r1.component('A', value=0.001, variance=1e-10, known=True, bounds=(0.0, 3))
+    A = r1.component('A', value=0.001, variance=1e-10, known=False, bounds=(0.0, 3))
     B = r1.component('B', value=0.0, variance=1e-11)
     C = r1.component('C', value=0.0, variance=1e-8)
    
@@ -38,13 +38,11 @@ if __name__ == "__main__":
     
     # Settings
     r1.settings.collocation.nfe = 60
-    r1.settings.parameter_estimator.solver = 'ipopt_sens'
+    r1.settings.parameter_estimator.covairance = 'k_aug'
     
     # Run KIPET
     r1.run_opt()  
-    
-    # Display the results
-    r1.results.show_parameters
 
+    # Display the results
     if with_plots:
-        r1.plot()
+        r1.report()
