@@ -86,4 +86,4 @@ if __name__ == "__main__":
 
     # Create plots
     if with_plots:
-        r1.plot('Z')
+        r1.report()
