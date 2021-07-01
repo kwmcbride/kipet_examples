@@ -56,7 +56,7 @@ if __name__ == "__main__":
     F = r1.constant('F', value=0.1, units='m**3/hour')
     Fc = r1.constant('Fc', value=0.15, units='m**3/hour')
     Ca0 = r1.constant('Ca0', value=1000, units='mol/m**3')
-    V = r1.constant('V', value=0.2, units='m**3')
+    V = r1.constant('V1', value=0.2, units='m**3')
     Vc = r1.constant('Vc', value=0.055, units='m**3')
     Ar = r1.constant('Area', value=4.5, units='m**2')
     Cpc = r1.constant('Cpc', value=1.2, units='kJ/kg/K')
@@ -81,4 +81,5 @@ if __name__ == "__main__":
     
     rh_method = 'fixed'
     results = r1.rhps_method(method='k_aug',
-                             calc_method=rh_method)
+                             calc_method=rh_method,
+                             scaled=True)
