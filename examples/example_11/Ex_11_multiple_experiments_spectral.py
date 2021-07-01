@@ -1,4 +1,5 @@
-"""Example 11: Multiple Experimental Datasets with the new KipetModel
+"""
+Example 11: Multiple Experimental Datasets with the new KipetModel
 """
 # Standard library imports
 import sys # Only needed for running the example from the command line
@@ -34,7 +35,7 @@ if __name__ == "__main__":
     
     # Preprocessing!
     #r1.spectra.msc()
-    #r1.spectra.decrease_wavelengths(A_set=2)
+    #r1.spectra.decrease_wavelengths(2)
 
     # define explicit system of ODEs
     rA = k1*A
@@ -49,21 +50,18 @@ if __name__ == "__main__":
     r1.settings.collocation.ncp = 1
     r1.settings.collocation.nfe = 100
     r1.settings.parameter_estimator.scaled_variance = False
-    r1.settings.parameter_estimator.solver = 'ipopt'
-  
     r1.spectra.decrease_wavelengths(4)
-    r1.run_opt()
+
    
     # Repeat for the second model - the only difference is the dataset    
-    r2 = lab.new_reaction(name='reaction_2', model=r1)
+    r2 = lab.new_reaction(name='reaction-2', model=r1)
 
     # Add the dataset for the second model
     r2.add_data(file='data/Dij_exp3_reduced.txt', category='spectral')
     r2.spectra.decrease_wavelengths(4)
-    r2.run_opt() 
 
     """Using confidence intervals - uncomment the following three lines"""
-    lab.settings.solver.solver = 'ipopt_sens'
+    lab.settings.parameter_estimator.covariance = 'ipopt_sens'
     lab.settings.general.shared_spectra = True
     
     # Create the MultipleExperimentsEstimator and perform the parameter fitting
@@ -71,6 +69,4 @@ if __name__ == "__main__":
 
     # Plot the results
     if with_plots:    
-        for name, model in lab.reaction_models.items():
-            lab.results[name].show_parameters
-            model.plot()
+        lab.report()
