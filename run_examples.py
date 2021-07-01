@@ -39,6 +39,8 @@ class TestExamples(unittest.TestCase):
             flagpy = subprocess.call([sys.executable, file,'1'],
                                 stdout=self.std_out,
                                 stderr=subprocess.STDOUT)
+            
+            
             end = time.time()
             
             if flagpy!=0: 
@@ -53,7 +55,7 @@ class TestExamples(unittest.TestCase):
                 print('Time'.rjust(margin) + f' : {end-start:0.4f}\n')
                 grades[file.stem] = True
                 
-            print('Results'.rjust(margin) + f' : P: {n + 1 -countpy} | F: {countpy} | T: {n + 1} | R: {(n + 1 -countpy)/(n + 1):0.2f}%\n')
+            print('Results'.rjust(margin) + f' : P: {n + 1 -countpy} | F: {countpy} | T: {n + 1} | R: {100*(n + 1 -countpy)/(n + 1):0.2f}%\n')
             continue
         
         print(f'{countpy} files in {self.dir_examples} failed:')

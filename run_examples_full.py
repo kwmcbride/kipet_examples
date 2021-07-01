@@ -36,9 +36,20 @@ class TestExamples():
 
     def run_examples(self):
         
+        
+        
+        long_examples = [
+            'Ex_2_estimation_direct_sigmas',
+            'AD_6_sawall_SG_filter',
+            'Ex_2_estimation_bound_prof_fixed_variance',
+            'Ex_8_estimability',
+            'Ex_7_concentration_CI'
+            ]
+        
         grades = {}
         flagpy = 0
         countpy = 0
+        skip = 0
         
         print('Testing the example problems in folder: examples')
         number_of_examples = len(self.files)
@@ -47,6 +58,18 @@ class TestExamples():
         for n, file in enumerate(self.files):
             
             self.file_dict[n] = {}
+            
+            if file.stem in long_examples:
+                print('Skipping this long one...')
+                self.file_dict[n]['pass'] = False
+                self.file_dict[n]['skipped'] = True
+                self.file_dict[n]['file'] = file.stem    
+                grades[file.stem] = None
+                skip += 1
+                continue
+            
+            else:
+                self.file_dict[n]['skipped'] = False
             
             file = Path(file)
             margin = 10
@@ -83,7 +106,7 @@ class TestExamples():
                 grades[file.stem] = True
                 self.file_dict[n]['pass'] = True
                 
-            print('Results'.rjust(margin) + f' : P: {n + 1 -countpy} | F: {countpy} | T: {n + 1} | R: {100*(n + 1 -countpy)/(n + 1):0.2f}%\n')
+            print('Results'.rjust(margin) + f' : P: {n + 1 -countpy -skip} | F: {countpy} | S: {skip} | T: {n + 1} | R: {100*(n + 1 -countpy - skip)/(n + 1):0.2f}%\n')
             continue
         
         print(f'{countpy} files in {self.dir_examples} failed:')
@@ -123,9 +146,12 @@ class TestExamples():
         
         number_of_examples = len(self.file_dict)
         passing = sum([k['pass'] for k in self.file_dict.values()])
+        skipped = sum([k['skipped'] for k in self.file_dict.values()])
         score = int(100*passing/number_of_examples)
-        failing = number_of_examples - passing
-        grades = [passing, failing, score]
+        failing = number_of_examples - passing - skipped
+        grades = [passing, failing, skipped, score]
+        
+        print(grades)
         
         t = time.localtime()
         
