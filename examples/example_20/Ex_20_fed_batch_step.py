@@ -18,7 +18,7 @@ if __name__ == "__main__":
     if len(sys.argv)==2 and int(sys.argv[1]):
         with_plots = False
 
-    r1 = kipet.ReactionModel('fed_batch_parest')
+    r1 = kipet.ReactionModel('fed_batch')
     
     # Set the base time unit (match data)
     r1.unit_base.time = 'min'
@@ -69,4 +69,4 @@ if __name__ == "__main__":
     r1.run_opt()
     
     if with_plots:
-        r1.plot()
+        r1.report()
