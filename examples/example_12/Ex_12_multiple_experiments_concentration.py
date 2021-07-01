@@ -1,4 +1,5 @@
-"""Example 12: Multiple Experimental Datasets with the new KipetModel
+"""
+Example 12: Multiple Experimental Datasets with the new KipetModel
  
 This examples uses two reactions with concentration data where the second data
 set is noisy
@@ -28,7 +29,7 @@ if __name__ == "__main__":
     k2 = r1.parameter('k2', value=0.224, bounds=(0.0, 10.0))
     
     # Declare the components and give the initial values
-    A = r1.component('A', value=1.0e-3)
+    A = r1.component('A', value=1.0e-3, known=True, bounds=(0, 1e-2))
     B = r1.component('B', value=0.0)
     C = r1.component('C', value=0.0)
     
@@ -50,14 +51,15 @@ if __name__ == "__main__":
     r2 = lab.new_reaction(name='reaction-2', model=r1)
    
     # Add the dataset for the first model
-    noised_data = kipet.add_noise_to_data(r1.datasets['C_data'].data, 0.0001) 
+    noised_data = kipet.add_noise_to_data(r1.datasets['C_data'].data, 0.000001) 
     r2.add_data('C_data', data=noised_data[::10])
     
     # Add the known variances
-    r2.components.update('variance', {'A':1e-4,'B':1e-4,'C':1e-4})
+    r2.components.update('variance', {'A':1e-6,'B':1e-6,'C':1e-6})
     # # Create the MultipleExperimentsEstimator and perform the parameter fitting
+    lab.settings.parameter_estimator.covariance = 'k_aug'
     lab.run_opt()
 
     # Plot the results
-    lab.show_parameters
-    lab.plot('Z')
+    if with_plots:
+        lab.report()
