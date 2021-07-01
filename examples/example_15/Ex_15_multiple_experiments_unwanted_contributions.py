@@ -19,6 +19,7 @@ if __name__ == "__main__":
     lab = kipet.ReactionSet()
     
     r1 = lab.new_reaction(name='reaction-1')
+    r1.settings.parameter_estimator.covariance = None
     
     # Add the parameters
     k1 = r1.parameter('k1', value=1.3, bounds=(0.0, 2.0))
@@ -73,5 +74,4 @@ if __name__ == "__main__":
  
     # Plot the results
     if with_plots:
-        lab.show_parameters
-        lab.plot()
+        lab.report()

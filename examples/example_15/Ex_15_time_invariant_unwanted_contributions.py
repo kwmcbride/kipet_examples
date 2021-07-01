@@ -54,7 +54,7 @@ if __name__ == "__main__":
     r1.results.show_parameters
 
     if with_plots:
-        r1.plot()
+        r1.report()
         
     """We can now compare the results with the known profiles"""
     

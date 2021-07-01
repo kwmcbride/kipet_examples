@@ -39,6 +39,7 @@ if __name__ == "__main__":
     
     # Settings
     r1.settings.collocation.nfe = 100
+    #r1.settings.parameter_estimator.covariance = 'ipopt_sens'
     
     r1.unwanted_contribution('time_variant_G')
 
@@ -46,4 +47,4 @@ if __name__ == "__main__":
     r1.run_opt()
 
     if with_plots:
-        r1.plot()
+        r1.report()
