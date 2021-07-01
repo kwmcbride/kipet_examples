@@ -53,4 +53,4 @@ if __name__ == "__main__":
     
     # New plotting methods
     if with_plots:
-        r1.plot()
+        r1.report()
