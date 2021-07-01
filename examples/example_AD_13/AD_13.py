@@ -15,9 +15,10 @@ if __name__ == "__main__":
         with_plots = False
     
     lab = kipet.ReactionSet()
- 
+    # Declare ReactionSet settings first
+    
     r1 = lab.new_reaction('reaction-1')   
- 
+    
     # Add the model parameters
     k1 = r1.parameter('k1', value=1.0, bounds=(0.0, 10.0), fixed=False)
     k2 = r1.parameter('k2', value=0.224, bounds=(0.0, 10.0), fixed=False)
@@ -41,19 +42,23 @@ if __name__ == "__main__":
     r2 = lab.new_reaction(name='reaction-2', model=r1)
     
     # Simulated second dataset with noise
-    noised_data = kipet.add_noise_to_data(r1.datasets['ds-1'].data, 0.0001) 
+    #noised_data = kipet.add_noise_to_data(r1.datasets['ds-1'].data, 0.0001) 
     
     # Add the dataset for the second model
-    r2.add_data(data=noised_data)
+    filename = 'data/noised.csv'
+    r2.add_data(file=filename)
 
-    lab.settings.solver.solver = 'ipopt_sens'
-
-    r1.variances = {'device':1e-10,'A':1e-10,'B':1e-10,'C':1e-10}
-    r2.variances = {'device':1e-4,'A':1e-4,'B':1e-4,'C':1e-4}
+    r1.components.update('variance', {'device':1e-10,'A':1e-10,'B':1e-10,'C':1e-10})
+    r2.components.update('variance', {'device':1e-4,'A':1e-4,'B':1e-4,'C':1e-4})
+    
+    lab.settings.parameter_estimator.covariance = 'k_aug'
+    #lab.settings.solver.solver = 'ipopt_sens'
+    
+    # This is working properly
+    lab.global_parameters = ['k1', 'k2']
     
     lab.run_opt()
     
     # Plot the results
     if with_plots:
-        lab.show_parameters
-        lab.plot()
+        lab.report()
